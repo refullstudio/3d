@@ -40,9 +40,12 @@
             if (event.key === 'd' || event.key === 'ArrowRight') moveX = moveSpeed;
         });
 
-        document.addEventListener('keyup', () => {
-            moveX = 0;
-            moveY = 0;
+        // Keep moving the character even when the key is not held down
+        document.addEventListener('keyup', (event) => {
+            if (event.key === 'w' || event.key === 'ArrowUp') moveY = 0;
+            if (event.key === 's' || event.key === 'ArrowDown') moveY = 0;
+            if (event.key === 'a' || event.key === 'ArrowLeft') moveX = 0;
+            if (event.key === 'd' || event.key === 'ArrowRight') moveX = 0;
         });
 
         // Animation loop
