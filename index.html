@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Playable Character</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create a simple cube as the playable character
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const character = new THREE.Mesh(geometry, material);
+        scene.add(character);
+
+        // Set the initial position of the camera
+        camera.position.z = 5;
+
+        // Movement variables
+        let moveSpeed = 0.1;
+        let moveX = 0, moveY = 0;
+
+        // Keyboard input listener
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'w' || event.key === 'ArrowUp') moveY = moveSpeed;
+            if (event.key === 's' || event.key === 'ArrowDown') moveY = -moveSpeed;
+            if (event.key === 'a' || event.key === 'ArrowLeft') moveX = -moveSpeed;
+            if (event.key === 'd' || event.key === 'ArrowRight') moveX = moveSpeed;
+        });
+
+        document.addEventListener('keyup', () => {
+            moveX = 0;
+            moveY = 0;
+        });
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Move the character based on keyboard input
+            character.position.x += moveX;
+            character.position.y += moveY;
+
+            // Render the scene
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
